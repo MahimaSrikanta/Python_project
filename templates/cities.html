@@ -1,0 +1,113 @@
+{% extends "city_template.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-2">
+
+    <div class="mini-submenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </div>
+    <form action = "" method = "post"  role="form">
+    <div class="form-group" id = "Intrest" name = "intrests">
+        <span href="#" class="list-group-item active">
+          Menu
+            <span class="pull-right" id="slide-submenu">
+                <i class="fa fa-times"></i>
+            </span>
+        </span>
+        <a href="#" class="list-group-item" id ="events">
+            <i class="fa fa-comment-o"></i> Events
+        </a>
+        <a href="#" class="list-group-item" id ="Places">
+            <i class="fa fa-search"></i>Places to visit
+        </a>
+        <a href="#" class="list-group-item" id ="Hotels">
+            <i class="fa fa-user"></i> Hotels
+        </a>
+        <a href="#" class="list-group-item" id = "resturants">
+            <i class="fa fa-folder-open-o"></i> Resturants
+        </a><br>
+
+    </div>
+
+  </form>
+
+
+</div>
+
+<div class="col-sm-10">
+  <h3> {{city_value['City_name']}} </h3><br>
+  <p> {{city_value['City_details']}} </p><br>
+  <p id="mytext"> </p>
+  <p id ="value"></p>
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+    // locate your element and add the Click Event Listener
+    document.getElementById("Intrest").addEventListener("click",function(e) {
+
+      var javascriptcity_value = ""
+
+      console.log(e.target.nodeName)
+        // e.target is our targetted element.
+                    // try doing console.log(e.target.nodeName), it will result LI
+
+        if(e.target && e.target.nodeName == "A") {
+          if (e.target.id == "events"){
+              javascriptcity_event = '{{ city_value['City_events'] [0]}}';
+              javascriptcity_address = '{{ city_value['City_events'] [1]}}';
+            document.getElementById("mytext").innerHTML =  "Event Name : " + javascriptcity_event
+            document.getElementById("value").innerHTML =  "Address : " + javascriptcity_address
+          }
+          else if (e.target.id == "Places") {
+            javascriptcity_event = '{{ city_value['City_places'] [0]}}';
+            javascriptcity_address = '{{ city_value['City_places'] [1]}}';
+            document.getElementById("mytext").innerHTML =  "Place Name : " + javascriptcity_event
+            document.getElementById("value").innerHTML =  "Address : " + javascriptcity_address
+
+          }
+          else if (e.target.id == "Hotels") {
+            javascriptcity_event = '{{ city_value['City_hotels'] [0]}}';
+            javascriptcity_address = '{{ city_value['City_hotels'] [1]}}';
+            document.getElementById("mytext").innerHTML =  "Hotels Name : " + javascriptcity_event
+            document.getElementById("value").innerHTML =  "Address : " + javascriptcity_address
+
+          }
+          else if (e.target.id == "resturants") {
+            javascriptcity_event = '{{ city_value['City_resturants'] [0]}}';
+            javascriptcity_address = '{{ city_value['City_resturants'] [1]}}';
+            document.getElementById("mytext").innerHTML =  "Hotels Name : " + javascriptcity_event
+            document.getElementById("value").innerHTML =  "Address : " + javascriptcity_address
+
+
+          }
+
+            console.log(e.target.id + " was clicked");
+
+        }
+    });
+
+
+
+
+</script>
+
+{% endblock %}
