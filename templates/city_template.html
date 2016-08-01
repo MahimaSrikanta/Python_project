@@ -8,13 +8,15 @@
   <link rel="stylesheet" href="../static/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src= "main.js"></script>
   <link href="http://fonts.googleapis.com/css?family=Arimo:400" rel="stylesheet">
 
 
 
 
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myCtrl">
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -42,7 +44,7 @@
 
 
 
-	<div class = "conatiner" >
+	<div class = "conatiner"  >
 		{% block content %}
 		{% endblock %}
 	</div>

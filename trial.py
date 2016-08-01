@@ -1,6 +1,7 @@
 from flask import *
 from flask.ext.pymongo import PyMongo
-import pickle
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -92,11 +93,11 @@ def cities():
         city_name =  session['city_name']
         print(city_name)
         city_value= user.find_one({'City_name':city_name}) # mongodb return a dictionary
-    
 
 
 
-    return render_template("cities.html",city_value = city_value )
+
+    return render_template("city1.html",city_value = city_value )
 
 #Add details to mongodb
 '''
@@ -116,6 +117,26 @@ def find():
     return san_jose['name'] + san_jose['language']
 
 '''
+
+# News feed for SanFranscisco
+'''
+def sanFranscisco():
+    page =1
+    while(page < 2):
+        url = 'http://abc7news.com/san-francisco/'
+        source_code = requests.get(url)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        for link in soup.findAll('div', {'class':'headline' }):
+            title = link.string
+            #print(title)
+        page +=1
+
+
+sanFranscisco()
+'''
+
+
 
 if __name__ == '__main__':
     '''

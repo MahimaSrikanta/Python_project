@@ -1,0 +1,134 @@
+{% extends "city_template.html" %}
+{% block content %}
+<div class="row" ng-app="myApp" ng-controller="myCtrl">
+  <div class="col-sm-2">
+
+    <div class="mini-submenu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </div>
+    <form action = "" method = "post"  role="form">
+    <div class="form-group" id = "Intrest" name = "intrests" ng-click="toggleSibling($event)">
+        <span href="#" class="list-group-item active">
+          Menu
+            <span class="pull-right" id="slide-submenu">
+                <i class="fa fa-times"></i>
+            </span>
+        </span>
+        <a href="#" class="list-group-item" id ="events">
+            <i class="fa fa-comment-o"></i> Events
+        </a>
+        <a href="#" class="list-group-item" id ="Places">
+            <i class="fa fa-search"></i>Places to visit
+        </a>
+        <a href="#" class="list-group-item" id ="Hotels">
+            <i class="fa fa-user"></i> Hotels
+        </a>
+        <a href="#" class="list-group-item" id = "resturants">
+            <i class="fa fa-folder-open-o"></i> Resturants
+        </a><br>
+
+    </div>
+
+    </form>
+
+
+
+
+
+</div>
+
+<div class="col-sm-10">
+  <h3> {{city_value['City_name']}} </h3><br>
+  <p> {{city_value['City_details']}} </p><br>
+
+
+
+
+</div>
+
+
+      <div class = "col-sm-6" id = "display">
+        <div class="panel panel-primary" id ="panel" ng-repeat ="x in even " >
+          <div class="panel-heading" id="mytext"> {a x.name  a}</div>
+          <div class="panel-body" id ="value">{a x.date a} </div>
+          <div class="panel-footer" id ="attribute">{a x.addr a}</div><br>
+          </div>
+        </div>
+
+
+</div>
+
+
+
+</div>
+<script>
+var app = angular.module("myApp", []);
+app.config(['$interpolateProvider', function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{a');
+  $interpolateProvider.endSymbol('a}');
+}]);
+
+app.controller("myCtrl", function($scope) {
+
+  $scope.toggleSibling = function($event){
+
+    console.log($event.target.id);
+    if ($event.target.id == "events"){
+      $scope.even = [];
+
+
+      $scope.mergedLists = {};
+
+      {%for events in city_value['City_events']%}
+        $scope.even.push({'name':'{{events[0]}}', 'date':'{{events[1]}}','addr':'{{events[2]}}'} ); // Gets the event name
+      {% endfor %}
+
+
+
+    console.log($scope.even);
+
+
+  }
+  if ($event.target.id == "Places"){
+    $scope.even = [];
+    {%for events in city_value['City_places']%}
+      $scope.even.push({'name':'{{events[0]}}', 'date':'{{events[1]}}','addr':'{{events[2]}}'} ); // Gets the event name
+    {% endfor %}
+  console.log($scope.even);
+
+}
+if ($event.target.id == "Hotels"){
+  $scope.even = [];
+  {%for events in city_value['City_hotels']%}
+$scope.even.push({'name':'{{events[0]}}', 'date':'{{events[1]}}','addr':'{{events[2]}}'} ); // Gets the event name
+
+{% endfor %}
+
+}
+if ($event.target.id == "resturants"){
+$scope.even = [];
+
+{%for events in city_value['City_resturants']%}
+  $scope.even.push({'name':'{{events[0]}}', 'date':'{{events[1]}}','addr':'{{events[2]}}'} ); // Gets the event name
+{% endfor %}
+
+
+}
+}
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

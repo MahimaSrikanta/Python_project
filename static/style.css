@@ -1,5 +1,5 @@
 .jumbotron {
-  background-image: url("event.jpg");
+  background-image: url("Event.jpg");
   color: 	white;
 background-size: cover;
 padding-bottom: 400px;
@@ -68,3 +68,4 @@ padding: 80px 50px;
     text-decoration: none;
     opacity: 1;
 }
+.hidden { display: none; }
