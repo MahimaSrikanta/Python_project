@@ -1,0 +1,62 @@
+{% extends "city_template.html" %}
+{% block content %}
+<div class="container-fluid bg-grey">
+<h2 class="text-center">FEEDBACK</h2>
+	<div class = "row">
+		<div class = "col-sm-12 col-md-12">
+		{% if feedback %}
+			{% for i in feedback.keys()%}
+					<blockquote><p>{{feedback[i]}}</p><p><small>{{i}}</small></p></blockquote>
+			{% endfor %}
+		{% else %}
+			<h1>Hello, World!</h1>
+		{% endif %}
+
+
+
+
+		</div>
+	</div>
+	<br><br>
+
+  <div class="row">
+	<div class="col-sm-12 col-md-12 ">
+
+    <form action = "" method = "post">
+	<div class="col-sm-7">
+      <div class="row">
+
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required >
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+	
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-primary pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+	</form>
+</div>
+</div>
+<br> <br>
+	<h2>CONTACT</h2><br>
+	<div class = "row">
+	    <div class="col-sm-5 col-md-5">
+
+      <p><span class="glyphicon glyphicon-map-marker"></span> San Jose, US</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
+    </div>
+	</div>
+
+
+
+  </div>
+</div>
+{% endblock %}

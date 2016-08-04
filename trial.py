@@ -1,11 +1,13 @@
 from flask import *
 from flask.ext.pymongo import PyMongo
+import collections
 import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
 # Mongo DB mLab configuration details
+#New version
 app.config['MONGO_DBNAME'] = "project_python"
 app.config['MONGO_URI']= "mongodb://project:mahima@ds033015.mlab.com:33015/project_python"
 
@@ -99,27 +101,37 @@ def cities():
 
     return render_template("city1.html",city_value = city_value )
 
-#Add details to mongodb
-'''
-@app.route('/add')
-def add():
-    user= mongo.db.users  # gets the mongodb and collection "users"
-    user.insert({'name':'San Franscisco', 'language': 'python'})
-    user.insert({'name':'San jose', 'language': 'english'})
-    user.insert({'name':'Las Vegas', 'language': 'hindi'})
-    return "Added"
+#Add Feedback for the Application
+@app.route('/contact',methods = ['POST', 'GET'])
+def contact1():
 
-#Query from mongodb
-@app.route('/find')
-def find():
-    user = mongo.db.users  # gets the mongodb and collection "users"
-    san_jose= user.find_one({'name': 'San jose'}) # mongodb return a dictionary
-    return san_jose['name'] + san_jose['language']
 
-'''
+    feedback = collections.OrderedDict()
+    feedback_db= mongo.db.Feedback
+    feedback1 = feedback_db.find()
+    for feeds in feedback1:
+
+        feedback.update(feeds)
+        
+    del feedback['_id']
+
+    if request.method == 'POST':
+
+        user= request.form['name']
+        comment = request.form['comments']
+        feedback.update({user:comment})
+        feedback_db= mongo.db.Feedback
+        feedback_db.insert({user: comment})
+
+        return render_template('contact.html', feedback= feedback)
+
+
+
+    return render_template('contact.html', feedback= feedback)
+
+
 
 # News feed for SanFranscisco
-'''
 def sanFranscisco():
     page =1
     while(page < 2):
@@ -129,12 +141,12 @@ def sanFranscisco():
         soup = BeautifulSoup(plain_text)
         for link in soup.findAll('div', {'class':'headline' }):
             title = link.string
-            #print(title)
+            print(title)
         page +=1
 
 
 sanFranscisco()
-'''
+
 
 
 
