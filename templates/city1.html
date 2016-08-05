@@ -1,5 +1,7 @@
 {% extends "city_template.html" %}
 {% block content %}
+<div class = "conatiner" style="{a style_func () a}" >
+
 <div class="row">
   <div class="col-sm-2">
 
@@ -41,10 +43,11 @@
 
 <div class="col-sm-10">
   <h3> {{city_value['City_name']}} </h3><br>
-  <p> {{city_value['City_details']}} </p><br>
+  <p class = "describe"> <b>{{city_value['City_details']}} </b></p><br>
   </div>
 
-  <div class="col-sm-2 " ng-show="true">
+
+  <div class="col-sm-2 " ng-show= {a select_value a}>
 
      <label for="sel1" ng-show = select_value>Sort By (select one):</label>
       <select class="form-control" id="sel1" ng-show = select_value ng-model="selectedName" ng-options="x for x in names">
@@ -53,24 +56,24 @@
       <h3> {a selectedName a}</h3>
 
 </div>
-<!--
-<div class="col-sm-2 " ng-show="true">
 
-   <label for="sel1" ng-show = filter_value> Sort By (select one):</label>
-    <select class="form-control" id="sel1" ng-show = filter_value ng-model="FilterName" ng-options="x for x in filters">
+<div class="col-sm-2 " ng-show= {a filter_value a}>
+
+   <label for="sel1" ng-show = filter_value> Filter Cuisine  By (select one):</label>
+    <select class="form-control" id="sel1" ng-show = filter_value ng-model="filters.value" ng-options="x for x in filters.values">
 
     </select>
     <h3> {a FilterName a}</h3>
 
 </div>
--->
+
 </div>
 
 
 
       <div class = "row">
       <div class = "col-sm-6 col-sm-offset-2" id = "display">
-        <div class="panel panel-primary" id ="panel" ng-repeat ="x in even | orderBy : selectedName " >
+        <div class="panel panel-primary" id ="panel" ng-repeat ="x in even | orderBy : selectedName | filter :filters.value " >
           <div class="panel-heading" id="mytext"> {a x.Name  a}</div>
           <div class="panel-body" id ="value">{a x.Date a} </div>
           <div class="panel-body" id ="value">{a x.Popular a} </div>
@@ -99,10 +102,13 @@ app.controller("myCtrl", function($scope, $rootScope) {
 
     console.log($event.target.id);
     if ($event.target.id == "events"){
+      $scope.select_value = true;
+      $scope.filters = {"value":" "};
+      $rootScope.filter_value = false ;
       $scope.even = [];
 
-      $scope.names = ["Date", "-Popular", "Address"];
-      $rootScope.select_value = "false"
+      $scope.names = ["Date", "-Popular"];
+
 
 
       {%for events in city_value['City_events']%}
@@ -117,20 +123,22 @@ app.controller("myCtrl", function($scope, $rootScope) {
   }
   if ($event.target.id == "Places"){
     $scope.even = [];
-    $scope.names = ["-Popular", "Address"];
-    $scope.select_value = "false"
-    $scope.filter_value = "true"
+    $scope.names = ["-Popular"];
+    $scope.select_value = true;
+    $scope.filters = {"value":" "};
+    $rootScope.filter_value = false ;
     {%for events in city_value['City_places']%}
-      $scope.even.push({'Name':'{{events[0]}}', 'Date':'{{events[1]}}','Popular':'{{events[2]}}','Address':'{{events[3]}}'} ); // Gets the event name
+      $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Date':'{{events[2]}}','Address':'{{events[3]}}'} ); // Gets the event name
     {% endfor %}
   console.log($scope.even);
 
 }
 if ($event.target.id == "Hotels"){
   $scope.even = [];
-  $scope.names = ["-Popular","Type", "Address"];
-  $scope.select_value = "false"
-  $rootScope.filter_value = "false"
+  $scope.names = ["-Popular","-Type"];
+  $scope.select_value = true;
+  $scope.filters = {"value":" "};
+  $rootScope.filter_value = false ;
   {%for events in city_value['City_hotels']%}
 $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Type':'{{events[2]}}','Address':'{{events[3]}}'} );
 {% endfor %}
@@ -138,10 +146,14 @@ $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Type':'{{ev
 }
 if ($event.target.id == "resturants"){
 $scope.even = [];
-$scope.names = ["-Popular","Type", "Address"];
-$scope.filters = ["American", "Indian", "Chinese", "Italian","Thai"]
-$scope.select_value = "false"
-$rootScope.filter_value = "true"
+$scope.names = ["-Popular","Type"];
+$scope.filters = {
+                  "value":"American",
+                  "values": ["American", "Indian", "Chinese", "Italian","Thai"]}
+$scope.select_value = true;
+$rootScope.filter_value = true;
+
+
 {%for events in city_value['City_resturants']%}
   $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Type':'{{events[2]}}','Address':'{{events[3]}}'} );
 {% endfor %}
@@ -149,7 +161,29 @@ $rootScope.filter_value = "true"
 
 }
 }
+
+$scope.style_func = function(){
+  {% if city_value['City_name'] == 'San Francisco'%}
+    var style1 = "background-image: url(../static/gg.jpg); background-size: cover;";
+    return style1;
+  {%endif %}
+  {% if city_value['City_name'] == 'San Jose'%}
+    var style1 = "background-image: url(../static/sj.jpg); background-size: cover;";
+    return style1;
+  {%endif %}
+  {% if city_value['City_name'] == 'San Diego'%}
+    var style1 = "background-image: url(../static/sd.jpg); background-size: cover;";
+    return style1;
+  {%endif %}
+  {% if city_value['City_name'] == 'Los Angeles'%}
+    var style1 = "background-image: url(../static/la.jpg); background-size: cover;";
+    return style1;
+  {%endif %}
+
+}
 });
+
+
 </script>
 
 

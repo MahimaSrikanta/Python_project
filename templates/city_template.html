@@ -25,27 +25,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Application</a>
+      <a class="navbar-brand" href="/">In N Around</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/about">ABOUT</a></li>
+        <li><a href="/#about">ABOUT</a></li>
         <li><a href="/contact">CONTACT</a></li>
       </ul>
     </div>
   </div>
 </nav>
-<div class="jumbotron text-center cities">
+<div class="jumbotron text-center cities" ng-app="myApp" ng-controller="myCtrl" >
   <h1>{{name}}</h1>
   <p>Holiday Planner</p>
   </div>
 
+  {% block content %}
+  {% endblock %}
 
 
 
-	<div class = "conatiner cities_temp"  ng-app="myApp" ng-controller="myCtrl" >
-		{% block content %}
-		{% endblock %}
-	</div>
 </body>
 </html>
