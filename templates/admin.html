@@ -1,0 +1,163 @@
+{% extends "city_template.html" %}
+{% block content %}
+<div class="container" >
+    <div class="row" id = "Login-session">
+        <div class="col-md-offset-4 col-md-3">
+            <div class="form-login">
+            <h4>Admin Sign-In </h4>
+            <form role="form" method = "post">
+              <input type="text" id="userName" class="form-control" name = "Username" placeholder="username" />
+              </br>
+              <input type="password" id="userPassword" class="form-control" name = "Password" placeholder="password" />
+              </br>
+              <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+            </div>
+
+        </div>
+    </div>
+    <div class = "row" ng-app="adminApp" ng-controller="adminCtrl" ng-show = second_form>
+
+      <div class = "col-sm-4 col-sm-offset-1"ng-show = second_form  >
+            <h3> Welcome Admin </h3><br><br>
+            <div class="form-group" >
+            <label for="name">Cities List:</label>
+            <select class="form-control"  ng-model="selectedItem" >
+
+              <option value = "San Francisco"> San Francisco</option>
+              <option value = "San Jose">San Jose</option>
+              <option value = "San Diego">San Diego</option>
+              <option value = "Los Angeles">Los Angeles</option>
+              <option value = "Las Vegas">Las Vegas</option>
+            </select> <br>
+            <button class="btn btn-primary" type="submit" ng-click="city_toggle(selectedItem)">Edit</button>
+          </div>
+
+        </div>
+        <div class = "col-sm-4 col-sm-offset-1" ng-show = menu >
+                  <p style = "padding-top:65px">Select the activity to edit</p>
+                  <div class="form-group">
+                  <label for="name">Menu</label>
+                  <select class="form-control" name = "menu"   ng-model="selectedmenu">
+
+                    <option value = "Event"> Event</option>
+                    <option value = "Places"> Places to visit</option>
+                    <option value = "Hotels"> Hotels</option>
+                    <option value = "Resturants"> Resturants</option>
+                  </select> <br>
+                  <button class="btn btn-primary" type="submit" ng-click="Menu_toggle(selectedmenu)">Edit</button>
+                </div>
+              </div>
+        <div class = "col-sm-10" ng-show = edit id = "value-session" >
+          <form  class=" form-inline"  role = "form" >
+            <div class="form-group" style = "padding-bottom: 10px"ng-repeat= "x in options track by $index">
+              <label for="email"></label>
+              <input type="text" class="form-control" id="email" ng-model ="x.name"  required>
+            </div>
+
+
+
+  <button type="submit" class="btn btn-info" ng-click="Menu_toggle(selectedmenu)" style = "padding-bottom: 10px">+</button>
+    <button type="submit" class="btn btn-danger" ng-click="del_func(selectedmenu)" style = "padding-bottom: 10px">-</button>
+  <button type="submit" class="btn btn-primary" ng-click="edit_func(selectedItem, selectedmenu, options )" style = "padding-bottom: 10px">Submit</button>
+
+</form>
+
+
+</div>
+
+
+
+
+<script>
+var app = angular.module("adminApp", []);
+app.config(['$interpolateProvider', function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{a');
+  $interpolateProvider.endSymbol('a}');
+}]);
+
+app.controller("adminCtrl", function($scope, $rootScope, $http) {
+  //Variables declarattion
+  var values = [];
+  $scope.options =[];
+
+  console.log('{{login}}');
+  {%if login == "true" %}
+    var myEl = angular.element( document.querySelector( '#Login-session' ) );
+    $scope.second_form = true;
+    myEl.remove();
+  {% endif %}
+
+$scope.city_toggle = function(selectedItem){
+
+  if(selectedItem){
+    $scope.menu = true;
+
+  }
+
+};
+
+$scope.Menu_toggle = function(selectedmenu){
+
+  if(selectedmenu){
+    $scope.edit = true;
+
+    console.log(selectedmenu)
+  }
+  switch (selectedmenu) {
+    case "Event":
+    $scope.options.push ({name:'Name'},{name:'Date'},{name:'Rating'}, {name: 'Address'});
+    break;
+
+    case "Places":
+    $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Details'}, {name: 'Address'});
+    break;
+
+    case "Hotels":
+    $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Type'}, {name: 'Address'});
+    break;
+
+    case "Resturants":
+    $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Cuisine'}, {name: 'Address'});
+    break;
+
+
+  }
+
+
+
+};
+$scope.del_func= function(selectedmenu){
+
+
+}
+
+$scope.edit_func = function(selectedItem, selectedmenu, options){
+
+  values.push(options);
+  console.log(values);
+
+
+
+  $http.post('/details', { 'uid': [values, selectedItem , selectedmenu]}).success(function(response) {
+
+
+
+});
+$scope.edit = false;
+$scope.options= [];
+
+
+};
+
+$scope.Add_func = function(){
+
+$scope.options.push({})
+
+
+
+};
+});
+
+</script>
+{% endblock %}

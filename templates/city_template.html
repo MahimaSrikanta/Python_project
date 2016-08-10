@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
   <title>Application</title>
-  <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-16">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src= "main.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+
   <link href="http://fonts.googleapis.com/css?family=Arimo:400" rel="stylesheet">
 
 
 
 
 </head>
-<body ng-app="myApp" ng-controller="myCtrl">
+<body >
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -28,6 +30,7 @@
       <a class="navbar-brand" href="/">In N Around</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
+
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/#about">ABOUT</a></li>
         <li><a href="/contact">CONTACT</a></li>
@@ -35,7 +38,7 @@
     </div>
   </div>
 </nav>
-<div class="jumbotron text-center cities" ng-app="myApp" ng-controller="myCtrl" >
+<div class="jumbotron text-center cities"  >
   <h1>{{name}}</h1>
   <p>Holiday Planner</p>
   </div>

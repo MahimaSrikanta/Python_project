@@ -1,6 +1,6 @@
 {% extends "city_template.html" %}
 {% block content %}
-<div class = "conatiner" style="{a style_func () a}" >
+<div class = "conatiner" style="{a style_func () a}" ng-app="myApp" ng-controller="myCtrl" >
 
 <div class="row">
   <div class="col-sm-2">
@@ -43,11 +43,13 @@
 
 <div class="col-sm-10">
   <h3> {{city_value['City_name']}} </h3><br>
-  <p class = "describe"> <b>{{city_value['City_details']}} </b></p><br>
+  <p class = "describe"> <b>{{city_value['City_details']}} </b></p><br><br>
+
+
   </div>
 
 
-  <div class="col-sm-2 " ng-show= {a select_value a}>
+  <div class="col-sm-2 " ng-show=  select_value >
 
      <label for="sel1" ng-show = select_value>Sort By (select one):</label>
       <select class="form-control" id="sel1" ng-show = select_value ng-model="selectedName" ng-options="x for x in names">
@@ -57,7 +59,7 @@
 
 </div>
 
-<div class="col-sm-2 " ng-show= {a filter_value a}>
+<div class="col-sm-3 " ng-show= filter_value>
 
    <label for="sel1" ng-show = filter_value> Filter Cuisine  By (select one):</label>
     <select class="form-control" id="sel1" ng-show = filter_value ng-model="filters.value" ng-options="x for x in filters.values">
@@ -72,31 +74,45 @@
 
 
       <div class = "row">
-      <div class = "col-sm-6 col-sm-offset-2" id = "display">
+      <div class = "col-sm-6 col-sm-offset-2" id = "display" >
         <div class="panel panel-primary" id ="panel" ng-repeat ="x in even | orderBy : selectedName | filter :filters.value " >
-          <div class="panel-heading" id="mytext"> {a x.Name  a}</div>
-          <div class="panel-body" id ="value">{a x.Date a} </div>
+          <div class="panel-heading" id="mytext"><span ng-bind-html= x.Name ></span> </div>
+          <div class="panel-body" id ="value"><span ng-bind-html= x.Date ></span> </div>
           <div class="panel-body" id ="value">{a x.Popular a} </div>
           <div class="panel-body" id ="value">{a x.Type a} </div>
 
-          <div class="panel-footer" id ="attribute">{a x.Address a}</div><br>
+          <div class="panel-footer" id ="attribute"><span ng-bind-html= x.Address></span></div><br>
           </div>
         </div>
 
 
+</div>
+<div class = "row">
+  <div class = "col-sm-8 col-sm-offset-2">
+    <h3 ng-hide = select_value> Top News Feed</h3>
+
+
+
+    <ul class="nav nav-pills nav-stacked" ng-repeat = "stuff in {{ news}} " ng-hide = select_value>
+
+    <li class = "news"><a href="#">{a stuff a}</a></li>
+
+    </ul>
+</div>
 </div>
 
 
 
 </div>
 <script>
-var app = angular.module("myApp", []);
+var app = angular.module("myApp", ['ngSanitize']);
 app.config(['$interpolateProvider', function($interpolateProvider) {
   $interpolateProvider.startSymbol('{a');
   $interpolateProvider.endSymbol('a}');
 }]);
 
 app.controller("myCtrl", function($scope, $rootScope) {
+  $scope.newsdetails = '{{news_feed}}'
 
   $scope.toggleSibling = function($event){
 
@@ -111,7 +127,7 @@ app.controller("myCtrl", function($scope, $rootScope) {
 
 
 
-      {%for events in city_value['City_events']%}
+      {%for events in (city_value['City_events']).values() %}
         $scope.even.push({'Name':'{{events[0]}}', 'Date':'{{events[1]}}','Popular':'{{events[2]}}','Address':'{{events[3]}}'} ); // Gets the event name
       {% endfor %}
 
@@ -127,7 +143,7 @@ app.controller("myCtrl", function($scope, $rootScope) {
     $scope.select_value = true;
     $scope.filters = {"value":" "};
     $rootScope.filter_value = false ;
-    {%for events in city_value['City_places']%}
+    {%for events in (city_value['City_places']).values() %}
       $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Date':'{{events[2]}}','Address':'{{events[3]}}'} ); // Gets the event name
     {% endfor %}
   console.log($scope.even);
@@ -139,7 +155,7 @@ if ($event.target.id == "Hotels"){
   $scope.select_value = true;
   $scope.filters = {"value":" "};
   $rootScope.filter_value = false ;
-  {%for events in city_value['City_hotels']%}
+  {%for events in (city_value['City_hotels']).values()%}
 $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Type':'{{events[2]}}','Address':'{{events[3]}}'} );
 {% endfor %}
 
@@ -154,7 +170,7 @@ $scope.select_value = true;
 $rootScope.filter_value = true;
 
 
-{%for events in city_value['City_resturants']%}
+{%for events in (city_value['City_resturants']).values()%}
   $scope.even.push({'Name':'{{events[0]}}', 'Popular':'{{events[1]}}','Type':'{{events[2]}}','Address':'{{events[3]}}'} );
 {% endfor %}
 
