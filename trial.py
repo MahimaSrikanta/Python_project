@@ -48,151 +48,116 @@ def News(city_name):
 
     return feed
 
-
-#Resturants class
-class Resturants:
-    def __init__(self, alist, city_value):
+# Main class
+class Mongo_writer:
+    def __init__(self, alist,city_value, menu_value,del_val):
         self.alist = alist
         self.city_value = city_value
+        self.menu_value = menu_value
 
-    #To segreggate the list values properly
-    def correction(self):
+    #To format the input data as per requirement
+    def format_input(self):
         length_list = len(self.alist)
         print(length_list)
         count = length_list//4
         even=0
         self.event_dict = {}
-        while(count > 1):
+        while(count > 0):
+            print("counting")
+            if (self.menu_value == "Event"):
+                self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Date: "+self.alist[even +1] , "Popular: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
+            elif (self.menu_value == "Resturants"):
+                self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Rating: "+self.alist[even +1] , "Cuisine: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
+            elif(self.menu_value == "Hotels"):
+                self.event_dict.update({self.alist[even] :["Name: " + self.alist[even],"Rating: "+self.alist[even +1] , "Type: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
+            else:
+                self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Rating: "+self.alist[even +1] , "Type: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
 
-
-            self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Rating: "+self.alist[even +1] , "Cuisine: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
 
             count= count-1
             even = even+4
-
-
         print(self.event_dict)
-        self.load_resturant()
+        return (self.event_dict)
+
+
+
+
+
+#Resturants class (subclass)
+class Resturants(Mongo_writer):
+    def __init__(self, alist, city_value, menu_details,del_val):
+        Mongo_writer.__init__(self, alist, city_value, menu_details, del_val)
+
+    #To segreggate the list values properly
+    def get_format(self):
+        self.data = self.format_input()
+
 
     #update the mongodb
-    def load_resturant(self):
-        event_db = mongo.db.Cities
-        print(self.city_value)
-        for i in (self.event_dict).keys():
-            print(self.event_dict[i])
-            event_db.update({'City_name':self.city_value}, {'$set': {'City_resturants.' + i: self.event_dict[i]}})
+    def load_data(self):
+        data_db = mongo.db.Cities
+        for i in (self.data).keys():
+            print(self.data[i])
+            data_db.update({'City_name':self.city_value}, {'$set': {'City_resturants.' + i: self.data[i]}})
 
 
 
 
 #Events class
-class Events:
-    def __init__(self, alist, city_value):
-        self.alist = alist
-        self.city_value = city_value
+class Events(Mongo_writer):
+    def __init__(self, alist, city_value, menu_details,del_val):
+        Mongo_writer.__init__(self, alist, city_value, menu_details,del_val)
 
     #To segreggate the list values properly
-    def correction(self):
-        length_list = len(self.alist)
-        print(length_list)
-        count = length_list//4
-        even=0
-        self.event_dict = {}
-        while(count > 1):
-
-            print("before", even, count)
-            self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Date: "+self.alist[even +1] , "Popular: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
-
-            count= count-1
-            even = even+4
-            print("after", even, count)
-
-        print(self.event_dict)
-        self.load_event()
+    def get_format(self):
+        self.data = self.format_input()
 
     #update the mongodb
-    def load_event(self):
-        event_db = mongo.db.Cities
-        print(self.city_value)
-        for i in (self.event_dict).keys():
-            print(self.event_dict[i])
-            event_db.update({'City_name':self.city_value}, {'$set': {'City_events.' + i: self.event_dict[i]}})
+    def load_data(self):
+        data_db = mongo.db.Cities
+
+        for i in (self.data).keys():
+            print(self.data[i])
+            data_db.update({'City_name':self.city_value}, {'$set': {'City_events.' + i: self.data[i]}})
 
 
 #Hotels class
-class Hotels:
-    def __init__(self, alist, city_value):
-        self.alist = alist
-        self.city_value = city_value
+class Hotels(Mongo_writer):
+    def __init__(self, alist, city_value, menu_details,del_val):
+        Mongo_writer.__init__(self, alist, city_value, menu_details,del_val )
 
     #To segreggate the list values properly
-    def correction(self):
-        length_list = len(self.alist)
-        print(length_list)
-        count = length_list//4
-        even=0
-        self.event_dict = {}
-        while(count > 1):
-
-
-            self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Rating: "+self.alist[even +1] , "Type: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
-
-            count= count-1
-            even = even+4
-
-
-        print(self.event_dict)
-        self.load_hotels()
+    def get_format(self):
+        self.data = self.format_input()
 
     #update the mongodb
-    def load_hotels(self):
-        event_db = mongo.db.Cities
-        print(self.city_value)
-        for i in (self.event_dict).keys():
-            print(self.event_dict[i])
-            event_db.update({'City_name':self.city_value}, {'$set': {'City_hotels.' + i: self.event_dict[i]}})
+    def load_data(self):
+        data_db = mongo.db.Cities
+        for i in (self.data).keys():
+            print(self.data[i])
+            data_db.update({'City_name':self.city_value}, {'$set': {'City_hotels.' + i: self.data[i]}})
 
 
 
 
 #Places class
-class Places:
-    def __init__(self, alist, city_value):
-        self.alist = alist
-        self.city_value = city_value
+class Places(Mongo_writer):
+    def __init__(self, alist, city_value, menu_details,del_val):
+        Mongo_writer.__init__(self, alist, city_value, menu_details, del_val)
 
     #To segreggate the list values properly
-    def correction(self):
-        length_list = len(self.alist)
-        print(length_list)
-        count = length_list//4
-        even=0
-        self.event_dict = {}
-        while(count > 1):
-
-
-            self.event_dict.update({self.alist[even] :["Name: " + self.alist[even], "Rating: "+self.alist[even +1] , "Type: "+self.alist[even+2], "Address: " +self.alist[even+3]]})
-
-            count= count-1
-            even = even+4
-
-
-        print(self.event_dict)
-        self.load_places()
+    def get_format(self):
+        self.data = self.format_input()
 
     #update the mongodb
-    def load_places(self):
-        event_db = mongo.db.Cities
-        print(self.city_value)
-        for i in (self.event_dict).keys():
-            print(self.event_dict[i])
-            event_db.update({'City_name':self.city_value}, {'$set': {'City_places.' + i: self.event_dict[i]}})
+    def load_data(self):
+        data_db = mongo.db.Cities
+        for i in (self.data).keys():
+            print(self.data[i])
+            data_db.update({'City_name':self.city_value}, {'$set': {'City_places.' + i: self.data[i]}})
 
 
-class Cities(Resturants, Events, Hotels,Places):
 
-    def __init__(self):
-        self = dict()
 
 
 
@@ -293,10 +258,12 @@ def details():
 
             city_value = details["data"]["uid"][1] # Gets the city Name
             menu_value = details["data"]["uid"][2] # Gets the Menu Name
+            del_val = details["data"]["uid"][3] # Gets if the request is for delete or add/update
             menu_details = details["data"]["uid"][0][0] #Gets the entry details list
             len_menu= len(menu_details) #Gets the length of the entry details list
             final_details = [[]]
             value_list = []
+
 
             #Properly formats the data in the list
             for i in range(len_menu):
@@ -305,8 +272,25 @@ def details():
             print((value_list))
 
             #Create an object of events class for tetsing
-            e= Hotels(value_list,city_value )
-            e.correction()
+            if(menu_value == "Event"):
+                e= Events(value_list,city_value, menu_value,del_val)
+                e.get_format()
+                e.load_data()
+
+            elif(menu_value == "Resturants"):
+                r= Resturants(value_list,city_value, menu_value,del_val)
+                r.get_format()
+                r.load_data()
+
+            elif(menu_value == "Hotels"):
+                h= Hotels(value_list,city_value, menu_value,del_val)
+                h.get_format()
+                h.load_data()
+
+            else:
+                p= Places(value_list,city_value, menu_value)
+                p.get_format()
+                p.load_data()
 
     except Exception as e:
         print(e)

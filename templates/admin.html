@@ -45,7 +45,7 @@
                     <option value = "Hotels"> Hotels</option>
                     <option value = "Resturants"> Resturants</option>
                   </select> <br>
-                  <button class="btn btn-primary" type="submit" ng-click="Menu_toggle(selectedmenu)">Edit</button>
+                  <button class="btn btn-primary" type="submit" ng-click="Menu_toggle(selectedmenu,1)">Edit</button>
                 </div>
               </div>
         <div class = "col-sm-10" ng-show = edit id = "value-session" >
@@ -57,8 +57,8 @@
 
 
 
-  <button type="submit" class="btn btn-info" ng-click="Menu_toggle(selectedmenu)" style = "padding-bottom: 10px">+</button>
-    <button type="submit" class="btn btn-danger" ng-click="del_func(selectedmenu)" style = "padding-bottom: 10px">-</button>
+  <button type="submit" class="btn btn-info"  ng-click="Menu_toggle(selectedmenu,1)" style = "padding-bottom: 10px">+</button>
+    <button type="submit" class="btn btn-danger" ng-click="del_func(selectedItem,selectedmenu,options)" style = "padding-bottom: 10px">-</button>
   <button type="submit" class="btn btn-primary" ng-click="edit_func(selectedItem, selectedmenu, options )" style = "padding-bottom: 10px">Submit</button>
 
 </form>
@@ -79,6 +79,7 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 app.controller("adminCtrl", function($scope, $rootScope, $http) {
   //Variables declarattion
   var values = [];
+  var del_val = [];
   $scope.options =[];
 
   console.log('{{login}}');
@@ -93,11 +94,17 @@ $scope.city_toggle = function(selectedItem){
   if(selectedItem){
     $scope.menu = true;
 
+
   }
+
 
 };
 
-$scope.Menu_toggle = function(selectedmenu){
+$scope.Menu_toggle = function(selectedmenu,add){
+  if( ! add){
+
+    $scope.options =[]
+}
 
   if(selectedmenu){
     $scope.edit = true;
@@ -127,7 +134,14 @@ $scope.Menu_toggle = function(selectedmenu){
 
 
 };
-$scope.del_func= function(selectedmenu){
+$scope.del_func= function(selectedItem, selectedmenu, options){
+  del_val.push(options)
+  console.log(values);
+  $http.post('/details', { 'uid': [del_val, selectedItem , selectedmenu,1]}).success(function(response) {
+
+
+
+});
 
 
 }
@@ -139,7 +153,7 @@ $scope.edit_func = function(selectedItem, selectedmenu, options){
 
 
 
-  $http.post('/details', { 'uid': [values, selectedItem , selectedmenu]}).success(function(response) {
+  $http.post('/details', { 'uid': [values, selectedItem , selectedmenu,0]}).success(function(response) {
 
 
 
