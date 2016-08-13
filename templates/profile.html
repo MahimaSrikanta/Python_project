@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block content %}
-  <div class="jumbotron text-center">
+    <div class="jumbotron text-center" xmlns="http://www.w3.org/1999/html">
     <h1>In N Around</h1>
 
     <div class = "row">
@@ -10,7 +10,7 @@
             <label for="name">Cities List:</label>
             <select class="form-control" name = "city_name" >
 
-              <option> San Francisco</option>
+              <option>San Francisco</option>
               <option>San Jose</option>
               <option>San Diego</option>
               <option>Los Angeles</option>
@@ -24,16 +24,42 @@
 
 
   <div class="container-fluid">
-    <h2 id = "about">About Application</h2>
-    <h4>bla bla</h4>
-    <p>bla bla..</p>
-
+    <h2 style="color: #f4511e" id = "about">About us</h2>
+    <div class="wrap">
+           <img style="float: left; margin-top: 3.5em; margin-left: 1.1em" height="350" width="700" src="../static/img_02.jpg" alt="Paris">
+           <div class="col-sm-4" style="float: left">
+            <div class="img-with-text"  >
+              <h3 style="text-align:left; float:left; color: #f4511e">about In N Around</h3>
+               <div class="thumbnail" style="height:200px; width:300px; border:0px solid #ccc;font:13px Calibri; overflow:auto; float: right; text-align: justify">
+                    <p>With a desire to make travelling, dining a pleasant experience and to provide easy access to information on entertainment,
+                        classified advertisements in and around the Bay Area, our team of four has come up with an online portal <strong>In-N-Around</strong>.
+                        This web page is a one stop source for all the avid travellers, food lovers and information seekers with a zeal to explore Bay area.
+                    </p>
+                    <p>The portal offer its audience all that one needs to plan a vacation, right from top tourist attractions to choice of accommodation,
+                        variety of restaurants offering various cuisines and events and things to do in the place.
+                    </p>
+                    <p>Currently the portal supports four popular places of the Bay area -
+                        <strong>  San Francisco</strong>,
+                        <strong>San Jose</strong>,
+                        <strong>San Diego</strong> and
+                        <strong>Los Angeles</strong>.
+                    </p>
+                     <p>Our team is working hard to host information about other popular and most visited places of the Bay area and also to make your
+                         experience with <strong>In-N-Around</strong> a more pleasing one.</p>
+                    <p>You are welcome to write to our team with feedback about our services at
+                        <a href="http://127.0.0.1:5000/contact" target="_blank"><strong><u>My Feedback</u></strong></a></p>
+               </div>
+               <img style="float: right ; height: 150px; width: 320px" src="../static/img_01.jpg" alt="Paris">
+            </div>
+          </div>
+      </div>
   </div>
+
 
 
   <div class="container-fluid text-center bg-grey">
     <h2>Portfolio</h2>
-    <h4>Overview of our application</h4>
+    <h4>Overview of the application</h4>
     <div class="row text-center">
       <div class="col-sm-4">
         <div class="thumbnail">
