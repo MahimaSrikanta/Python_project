@@ -89,4 +89,102 @@ $scope.style_func = function(){
   {%endif %}
 
 }
+var values = [];
+var del_val = [];
+$scope.options =[];
+
+console.log('{{login}}');
+{%if login == "true" %}
+  var myEl = angular.element( document.querySelector( '#Login-session' ) );
+  $scope.second_form = true;
+  myEl.remove();
+{% endif %}
+
+$scope.city_toggle = function(selectedItem){
+
+if(selectedItem){
+  $scope.menu = true;
+
+
+}
+
+
+};
+
+$scope.Menu_toggle = function(selectedmenu,add){
+if( ! add){
+
+  $scope.options =[]
+}
+
+if(selectedmenu){
+  $scope.edit = true;
+
+  console.log(selectedmenu)
+}
+switch (selectedmenu) {
+  case "Event":
+  $scope.options.push ({name:'Name'},{name:'Date'},{name:'Rating'}, {name: 'Address'});
+  break;
+
+  case "Places":
+  $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Details'}, {name: 'Address'});
+  break;
+
+  case "Hotels":
+  $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Type'}, {name: 'Address'});
+  break;
+
+  case "Resturants":
+  $scope.options.push ({name:'Name'},{name:'Rating'},{name:'Cuisine'}, {name: 'Address'});
+  break;
+
+
+}
+
+
+
+};
+$scope.del_func= function(selectedItem, selectedmenu, options){
+del_val.push(options)
+console.log(values);
+$http.post('/details', { 'uid': [del_val, selectedItem , selectedmenu,1]}).success(function(response) {
+
+
+
+});
+$scope.edit = false;
+$scope.options= [];
+del_val = [];
+
+
+}
+
+$scope.edit_func = function(selectedItem, selectedmenu, options){
+
+values.push(options);
+console.log(values);
+
+
+
+$http.post('/details', { 'uid': [values, selectedItem , selectedmenu,0]}).success(function(response) {
+
+
+
+});
+$scope.edit = false;
+$scope.options= [];
+
+
+};
+
+$scope.Add_func = function(){
+
+$scope.options.push({})
+
+
+
+};
+
+
 });

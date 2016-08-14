@@ -54,9 +54,10 @@ class Mongo_writer:
         self.alist = alist
         self.city_value = city_value
         self.menu_value = menu_value
+        self.del_val = del_val
 
     #To format the input data as per requirement
-    def format_input(self):
+    def format_load(self):
         length_list = len(self.alist)
         print(length_list)
         count = length_list//4
@@ -85,20 +86,28 @@ class Mongo_writer:
 
 #Resturants class (subclass)
 class Resturants(Mongo_writer):
-    def __init__(self, alist, city_value, menu_details,del_val):
-        Mongo_writer.__init__(self, alist, city_value, menu_details, del_val)
+    def __init__( self,alist, city_value, menu_details,del_val):
+        super().__init__(alist, city_value, menu_details, del_val)
 
-    #To segreggate the list values properly
-    def get_format(self):
-        self.data = self.format_input()
+    #Method Overriding
+
+    def format_load(self):
+        self.data = super().format_load()
+
+        #Insert the data into mongodb
+        try:
+            data_db = mongo.db.Cities
+            for i in (self.data).keys():
+                if  not self.del_val:
+                    print(self.data[i])
+                    data_db.update({'City_name':self.city_value}, {'$set': {'City_resturants.' + i: self.data[i]}})
+                else:
+                    print("deleting")
+                    data_db.update({'City_name':self.city_value}, {'$unset': {'City_resturants.' + i: self.data[i]}})
+        except:
+            print("Data collection Cities not available in mongodb")
 
 
-    #update the mongodb
-    def load_data(self):
-        data_db = mongo.db.Cities
-        for i in (self.data).keys():
-            print(self.data[i])
-            data_db.update({'City_name':self.city_value}, {'$set': {'City_resturants.' + i: self.data[i]}})
 
 
 
@@ -106,55 +115,71 @@ class Resturants(Mongo_writer):
 #Events class
 class Events(Mongo_writer):
     def __init__(self, alist, city_value, menu_details,del_val):
-        Mongo_writer.__init__(self, alist, city_value, menu_details,del_val)
+        super().__init__( alist, city_value, menu_details,del_val)
 
-    #To segreggate the list values properly
-    def get_format(self):
-        self.data = self.format_input()
 
-    #update the mongodb
-    def load_data(self):
-        data_db = mongo.db.Cities
+    #Method Overriding
+    def format_load(self):
+        self.data = super().format_load(self)
 
-        for i in (self.data).keys():
-            print(self.data[i])
-            data_db.update({'City_name':self.city_value}, {'$set': {'City_events.' + i: self.data[i]}})
-
+        #Insert the data into mongodb
+        try:
+            data_db = mongo.db.Cities
+            for i in (self.data).keys():
+                if  not self.del_val:
+                    print(self.data[i])
+                    data_db.update({'City_name':self.city_value}, {'$set': {'City_events.' + i: self.data[i]}})
+                else:
+                    print("deleting")
+                    data_db.update({'City_name':self.city_value}, {'$unset': {'City_events.' + i: self.data[i]}})
+        except:
+            print("Data collection Cities not available in mongodb")
 
 #Hotels class
 class Hotels(Mongo_writer):
     def __init__(self, alist, city_value, menu_details,del_val):
-        Mongo_writer.__init__(self, alist, city_value, menu_details,del_val )
+        super().__init__( alist, city_value, menu_details,del_val )
 
-    #To segreggate the list values properly
-    def get_format(self):
-        self.data = self.format_input()
+    #Method Overriding
+    def format_load(self):
+        self.data = super().format_load(self)
 
-    #update the mongodb
-    def load_data(self):
-        data_db = mongo.db.Cities
-        for i in (self.data).keys():
-            print(self.data[i])
-            data_db.update({'City_name':self.city_value}, {'$set': {'City_hotels.' + i: self.data[i]}})
-
+        #Insert the data into mongodb
+        try:
+            data_db = mongo.db.Cities
+            for i in (self.data).keys():
+                if  not self.del_val:
+                    print(self.data[i])
+                    data_db.update({'City_name':self.city_value}, {'$set': {'City_hotels.' + i: self.data[i]}})
+                else:
+                    print("deleting")
+                    data_db.update({'City_name':self.city_value}, {'$unset': {'City_hotels.' + i: self.data[i]}})
+        except:
+            print("Data collection Cities not available in mongodb")
 
 
 
 #Places class
 class Places(Mongo_writer):
     def __init__(self, alist, city_value, menu_details,del_val):
-        Mongo_writer.__init__(self, alist, city_value, menu_details, del_val)
+        super().__init__( alist, city_value, menu_details, del_val)
 
-    #To segreggate the list values properly
-    def get_format(self):
-        self.data = self.format_input()
+#Method Overriding
+def format_load(self):
+    self.data = super().format_load(self)
 
-    #update the mongodb
-    def load_data(self):
+    #Insert the data into mongodb
+    try:
         data_db = mongo.db.Cities
         for i in (self.data).keys():
-            print(self.data[i])
-            data_db.update({'City_name':self.city_value}, {'$set': {'City_places.' + i: self.data[i]}})
+            if  not self.del_val:
+                print(self.data[i])
+                data_db.update({'City_name':self.city_value}, {'$set': {'City_places.' + i: self.data[i]}})
+            else:
+                print("deleting")
+                data_db.update({'City_name':self.city_value}, {'$unset': {'City_places.' + i: self.data[i]}})
+    except:
+        print("Data collection Cities not available in mongodb")
 
 
 
@@ -274,23 +299,19 @@ def details():
             #Create an object of events class for tetsing
             if(menu_value == "Event"):
                 e= Events(value_list,city_value, menu_value,del_val)
-                e.get_format()
-                e.load_data()
+                e.format_load()
 
             elif(menu_value == "Resturants"):
                 r= Resturants(value_list,city_value, menu_value,del_val)
-                r.get_format()
-                r.load_data()
+                r.format_load()
 
             elif(menu_value == "Hotels"):
                 h= Hotels(value_list,city_value, menu_value,del_val)
-                h.get_format()
-                h.load_data()
+                h.format_load()
 
             else:
                 p= Places(value_list,city_value, menu_value)
-                p.get_format()
-                p.load_data()
+                p.format_load()
 
     except Exception as e:
         print(e)
