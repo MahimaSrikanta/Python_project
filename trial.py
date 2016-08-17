@@ -22,7 +22,7 @@ mongo= PyMongo(app)
 def News(city_name):
     page =1
     #Dictionary of all the cities and their respective news website
-    city_url = {"San Francisco": "http://abc7news.com/place/san-mateo/", "Los Angeles": "http://abc7news.com/place/los-angeles/",
+    city_url = {"San Francisco": "http://abc7news.com/san-francisco/", "Los Angeles": "http://abc7news.com/place/los-angeles/",
     "San Diego" : "http://abc7.com/place/san-diego/", "San Jose": "http://abc7news.com/place/san-jose/"}
     '''
     Based on cityname, go to respective webpage and find first 5 news headlines
@@ -48,7 +48,9 @@ def News(city_name):
 
     return feed
 
-# Main class
+
+
+# Parent class, format_load method is overriden in its child classess
 class Mongo_writer:
     def __init__(self, alist,city_value, menu_value,del_val):
         self.alist = alist
@@ -94,13 +96,15 @@ class Resturants(Mongo_writer):
     def format_load(self):
         self.data = super().format_load()
 
-        #Insert the data into mongodb
+        # Either Insert the data or delete data from mongodb
         try:
             data_db = mongo.db.Cities
             for i in (self.data).keys():
+                #Insert the data
                 if  not self.del_val:
                     print(self.data[i])
                     data_db.update({'City_name':self.city_value}, {'$set': {'City_resturants.' + i: self.data[i]}})
+                #Delete data
                 else:
                     print("deleting")
                     data_db.update({'City_name':self.city_value}, {'$unset': {'City_resturants.' + i: self.data[i]}})
@@ -120,7 +124,7 @@ class Events(Mongo_writer):
 
     #Method Overriding
     def format_load(self):
-        self.data = super().format_load(self)
+        self.data = super().format_load()
 
         #Insert the data into mongodb
         try:
@@ -142,7 +146,7 @@ class Hotels(Mongo_writer):
 
     #Method Overriding
     def format_load(self):
-        self.data = super().format_load(self)
+        self.data = super().format_load()
 
         #Insert the data into mongodb
         try:
@@ -166,7 +170,7 @@ class Places(Mongo_writer):
 
 #Method Overriding
 def format_load(self):
-    self.data = super().format_load(self)
+    self.data = super().format_load()
 
     #Insert the data into mongodb
     try:
@@ -197,7 +201,7 @@ def home():
     except Exception as e: #If Error in getting the cityname, then print the error
         print(e)
 
-    return render_template("profile.html") #Renders the staring page
+    return render_template("profile.html") #Renders the starting page
 
 
 
