@@ -164,7 +164,7 @@ class Hotels(Mongo_writer):
 
 
 
-#Places class
+#Places  sub class inherits from Mongo Writer Parent class
 class Places(Mongo_writer):
     def __init__(self, alist, city_value, menu_details,del_val):
         super().__init__( alist, city_value, menu_details, del_val)
@@ -228,7 +228,7 @@ def contact1():
 
     feedback = collections.OrderedDict()
     feedback_db= mongo.db.Feedback
-    
+
     #Gets all feedbacks from mongodb and builds the feedback dictionary
     feedback1 = feedback_db.find()
     for feeds in feedback1:
