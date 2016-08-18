@@ -228,6 +228,7 @@ def contact1():
 
     feedback = collections.OrderedDict()
     feedback_db= mongo.db.Feedback
+    
     #Gets all feedbacks from mongodb and builds the feedback dictionary
     feedback1 = feedback_db.find()
     for feeds in feedback1:
