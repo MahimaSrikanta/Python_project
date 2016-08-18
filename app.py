@@ -15,6 +15,7 @@ app.config['MONGO_URI']= "mongodb://project:mahima@ds033015.mlab.com:33015/proje
 #Session secret key for passing cityname from homepage to next cities page
 app.secret_key ="Mahima"
 
+
 #Instantiate the mongodb
 mongo= PyMongo(app)
 
