@@ -1,5 +1,6 @@
 {% extends "city_template.html" %}
 {% block content %}
+
 <div class="container" >
     <div class="row" id = "Login-session">
         <div class="col-md-offset-4 col-md-3">
@@ -82,6 +83,7 @@ app.controller("adminCtrl", function($scope, $rootScope, $http, $window) {
   var del_val = [];
   $scope.options =[];
 
+//checks if the admin has logged in properly, if true it takes the admin to edit the city details
   console.log('{{login}}');
   {%if login == "true" %}
     var myEl = angular.element( document.querySelector( '#Login-session' ) );
