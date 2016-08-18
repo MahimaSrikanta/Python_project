@@ -277,6 +277,7 @@ def Sign_in():
 
     except Exception as e:
         print(e)
+
     #Renders the admin page
     return render_template("admin.html", login = "false")
 
@@ -293,6 +294,7 @@ def details():
             del_val = details["data"]["uid"][3] # Gets if the request is for delete or add/update
             menu_details = details["data"]["uid"][0][0] #Gets the entry details list
             len_menu= len(menu_details) #Gets the length of the entry details list
+            
             final_details = [[]]
             value_list = []
 
