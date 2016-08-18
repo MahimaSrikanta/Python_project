@@ -233,6 +233,7 @@ def contact1():
     feedback1 = feedback_db.find()
     for feeds in feedback1:
         feedback.update(feeds)
+
     #Removes the mongodb objectID from feedback dictionary
     del feedback['_id']
 
@@ -276,7 +277,7 @@ def Sign_in():
 
     except Exception as e:
         print(e)
-
+    #Renders the admin page
     return render_template("admin.html", login = "false")
 
 
