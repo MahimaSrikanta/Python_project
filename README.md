@@ -7,8 +7,7 @@ About our Project – In N Around
 
 With a desire to make travelling, dining a pleasant experience and
 to provide easy access to information on entertainment, classified
-advertisements in and around Bay Area, our team of five has
-come up with an online portal In-N-Around. This web page is a one
+advertisements in and around Bay Area,this web app is developed, its one
 stop source for all the avid travelers, food lovers and information
 seekers with a zeal to explore Bay area.
 
@@ -27,7 +26,7 @@ things to do in the place.
 Frontend – Angular JS, HTML, CSS
 
 
-Backend – Python, Flask framework, JSON for MongoDb
+Backend – Python, Flask framework
 
 Database – MongoDB Version 3.0.12
 
