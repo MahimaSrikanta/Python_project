@@ -26,7 +26,7 @@ things to do in the place.
 Frontend – Angular JS, HTML, CSS
 
 
-Backend – Python, Flask framework
+Backend – Python( Flask framework)
 
 Database – MongoDB Version 3.0.12
 
